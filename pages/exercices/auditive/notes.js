@@ -11,22 +11,11 @@ document.getElementById('playButton').addEventListener('click', function (event)
         return;
     }
 
-    // Tabela de frequências (notas musicais da escala maior, grau 1 a 7)
-    const frequencies = [
-        261.63, // C (Dó)
-        293.66, // D (Ré)
-        329.63, // E (Mi)
-        349.23, // F (Fá)
-        392.00, // G (Sol)
-        440.00, // A (Lá)
-        493.88  // B (Si)
-    ];
-
     // Gerar sequência aleatória de notas
     const notes = [];
     for (let i = 0; i < sequenceLength; i++) {
-        const randomDegree = Math.floor(Math.random() * maxDegree); // Grau entre 0 e maxDegree-1
-        notes.push(frequencies[randomDegree]);
+        const randomDegree = Math.floor(Math.random() * maxDegree) + 1; // Grau entre 1 e maxDegree
+        notes.push(randomDegree);
     }
 
     // Tocar as notas
@@ -34,25 +23,23 @@ document.getElementById('playButton').addEventListener('click', function (event)
 });
 
 function playSequence(notes) {
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    let currentIndex = 0;
 
-    let startTime = audioContext.currentTime; // Tempo inicial
-    const noteDuration = 0.5; // Duração de cada nota em segundos
+    function playNote() {
+        if (currentIndex >= notes.length) {
+            return; // Fim da sequência
+        }
 
-    notes.forEach((frequency, index) => {
-        const oscillator = audioContext.createOscillator();
-        const gainNode = audioContext.createGain();
+        // Criar elemento de áudio e configurar o arquivo
+        const audio = new Audio(`notas/${notes[currentIndex]}.opus`);
+        audio.play();
 
-        oscillator.type = 'sine'; // Tipo de onda (sine = seno)
-        oscillator.frequency.value = frequency; // Frequência da nota
-        oscillator.connect(gainNode);
-        gainNode.connect(audioContext.destination);
+        // Avançar para a próxima nota quando o áudio terminar
+        audio.onended = () => {
+            currentIndex++;
+            playNote();
+        };
+    }
 
-        // Definir início e fim da nota
-        const noteStartTime = startTime + index * noteDuration;
-        const noteEndTime = noteStartTime + noteDuration;
-
-        oscillator.start(noteStartTime);
-        oscillator.stop(noteEndTime);
-    });
+    playNote(); // Começa a tocar a sequência
 }
