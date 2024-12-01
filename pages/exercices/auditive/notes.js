@@ -1,4 +1,4 @@
-document.getElementById('noteForm').addEventListener('submit', function (event) {
+document.getElementById('noteForm').addEventListener('click', function (event) {
     event.preventDefault(); // Impede o envio do formulário
 
     // Obter os valores dos inputs
