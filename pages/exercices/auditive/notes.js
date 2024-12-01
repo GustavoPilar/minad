@@ -6,7 +6,7 @@ document.getElementById('playButton').addEventListener('click', function (event)
     const maxDegree = parseInt(document.getElementById('maxDegree').value);
 
     // Validar os valores
-    if (sequenceLength <= 0 || maxDegree < 1 || maxDegree > 7) {
+    if (sequenceLength <= 0 || maxDegree < 1 || maxDegree > 8) {
         alert("Insira valores válidos.");
         return;
     }
