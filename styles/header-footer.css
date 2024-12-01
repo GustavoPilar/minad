@@ -1,5 +1,6 @@
 @import url('geral.css');
 
+/* HEADER */
 header {
     border-bottom: .5rem solid var(--corPreta);
     background-color: var(--cor2);
@@ -26,4 +27,16 @@ header li {
 header a:hover {
     color: var(--cor4);
     transition: 1s;
+}
+
+/* FOOTER */
+
+footer {
+    border-top: .5rem solid var(--corPreta);
+    background-color: var(--cor2);
+    color: var(--cor5);
+    padding: 1rem;
+    margin: .75rem;
+    align-items: center;
+    justify-content: center;
 }

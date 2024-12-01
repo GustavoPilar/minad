@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MINAD - Home</title>
     <link rel="stylesheet" href="../../styles/geral.css">
-    <link rel="stylesheet" href="../../styles/header.css">
-    <link rel="stylesheet" href="../../styles/footer.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <script src="notes.js" defer></script>
 </head>
 
 <body>
@@ -18,27 +18,30 @@
         </div>
         <nav>
             <ul class="d-flex">
-                <li><a href="../../index.html" class="uppercase">Home</a></li>
-                <li><a href="pages/exercices/home.html" class="uppercase hover checked">Exercícios</a></li>
+                <li><a href="../../../index.html" class="uppercase">Home</a></li>
+                <li><a href="pages/exercices/home.html" class="uppercase hover">Exercícios</a></li>
             </ul>
         </nav>
     </header>
     <main class="container">
         <div class="text-center container hr">
-            <h1>Bem-vindo(a)</h1>
+            <h1>Execício das notas</h1>
             <p style="margin-top: 1rem;">
-                Bem-vindo ao site do MINAD. Aqui você encontrará exercícios, a fim de melhorar a sua musicalidade.
+                Você poderá dizer quantas notas serão tocas, dentro de uma sequência. Então digitará até o último grau que deverá ser tocado.
+                <br>
+                Não se preocupe com a ordem, pois será aleatória.
             </p>
         </div>
         <div class="container text-center hr">
-            <h2><i class="fa-solid fa-music"></i> Exercício de Notas</h2>
+            <h2><i class="fa-solid fa-music"></i> Exercício de sequêncial de notas</h2>
             <div>
-                <p>
-                    Exercício para treinar percepção auditiva
-                </p>
-            </div>
-            <div class="m-2">
-                <a href="pages/notas.html" class="btn-success"">Entrar</a>
+                <form class="text-center" id="noteForm">
+                    <label for="sequenceLength" class="d-block">Tamanho da sequência:</label>
+                    <input type="number" placeholder="Ex.: 5" class="d-block mt-1-auto text-center" id="sequenceLength" min="1" required>
+                    <label for="maxDegree" class="d-block">Grau máximo(1 - 8)</label>
+                    <input type="number" placeholder="Ex.: 5" class="d-block mt-1-auto text-center" id="maxDegree" min="1" max="8" required>
+                    <input type="submit" value="Play" class="btn-success pointer">
+                </form>
             </div>
             
         </div>
