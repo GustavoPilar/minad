@@ -1,0 +1,29 @@
+@import url('geral.css');
+
+header {
+    border-bottom: .5rem solid var(--corPreta);
+    background-color: var(--cor2);
+    color: var(--cor5);
+    padding: 1rem;
+    margin: .75rem;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header h1 {
+    letter-spacing: .3rem;
+    color: var(--corBranca);
+}
+
+header ul {
+    list-style-type: none;
+}
+
+header li {
+    margin-left: 1rem;
+}
+
+header a:hover {
+    color: var(--cor4);
+    transition: 1s;
+}
