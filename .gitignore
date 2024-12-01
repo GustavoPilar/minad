@@ -1,0 +1,14 @@
+# Configurações do VSCode
+.vscode/
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Arquivos temporários
+*.log
+*.tmp
+
+# Dependências
+node_modules/
