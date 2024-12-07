@@ -1,43 +1,42 @@
-document.getElementById('playButton').addEventListener('click', function (event) {
-    event.preventDefault(); // Impede o envio do formulário
+const form = document.getElementById('noteForm');
 
-    // Obter os valores dos inputs
+form.addEventListener('submit', (event) => {
+
+    event.preventDefault(); // Evitar o carregamento da página
+
+    // Pegando os valores dos inputs
     const sequenceLength = parseInt(document.getElementById('sequenceLength').value);
-    const maxDegree = parseInt(document.getElementById('maxDegree').value);
+    const checkboxes = form.querySelectorAll('input[type="checkbox"]');
 
-    // Validar os valores
-    if (sequenceLength <= 0 || maxDegree < 1 || maxDegree > 8) {
-        alert("Insira valores válidos.");
+    const frequencies = Array.from(checkboxes)
+        .filter(checkbox => checkbox.checked)
+        .map(checkbox => parseFloat(checkbox.getAttribute('data-grau')));
+    
+    // Verificar se há frequências disponíveis
+    if (frequencies.length === 0) {
+        alert("Selecione pelo menos uma nota!");
         return;
     }
 
-    // Tabela de frequências (notas musicais da escala maior, grau 1 a 7)
-    const frequencies = [
-        261.63, // C (Dó)
-        293.66, // D (Ré)
-        329.63, // E (Mi)
-        349.23, // F (Fá)
-        392.00, // G (Sol)
-        440.00, // A (Lá)
-        493.88  // B (Si)
-    ];
-
-    // Gerar sequência aleatória de notas
+    //Gerar sequência aleatória de notas
     const notes = [];
     for (let i = 0; i < sequenceLength; i++) {
-        const randomDegree = Math.floor(Math.random() * maxDegree); // Grau entre 0 e maxDegree-1
+        const randomDegree = Math.floor(Math.random() * frequencies.length); // Grau entre 0 e grau máximo
         notes.push(frequencies[randomDegree]);
     }
 
-    // Tocar as notas
-    playSequence(notes);
+    console.log(notes);
+
+    // Tocar a primeira nota como referência e depois a sequência
+    playSequence([frequencies[0], ...notes]);
 });
 
 function playSequence(notes) {
+
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
     let startTime = audioContext.currentTime; // Tempo inicial
-    const noteDuration = 0.5; // Duração de cada nota em segundos
+    const noteDuration = 1; // Duração de cada nota em segundos
 
     notes.forEach((frequency, index) => {
         const oscillator = audioContext.createOscillator();
@@ -56,3 +55,4 @@ function playSequence(notes) {
         oscillator.stop(noteEndTime);
     });
 }
+

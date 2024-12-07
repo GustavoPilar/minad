@@ -38,8 +38,42 @@
                 <form class="text-center" id="noteForm">
                     <label for="sequenceLength" class="d-block">Tamanho da sequência:</label>
                     <input type="number" placeholder="Ex.: 5" class="d-block mt-1-auto text-center" id="sequenceLength" required>
-                    <label for="maxDegree" class="d-block">Grau máximo(1 - 8)</label>
-                    <input type="number" placeholder="Ex.: 5" class="d-block mt-1-auto text-center" id="maxDegree" required>
+                    
+                    <div class="d-block">
+                        <div class="d-flex-space-evenly">
+                            <input type="checkbox" data-grau="261.63" id="do">
+                            <label for="do">C - 1</label>
+                        </div>
+                        <div class="d-flex-space-evenly">
+                            <input type="checkbox" data-grau="293.66" id="re">
+                            <label for="re">D - 2</label>
+                        </div>
+                        <div class="d-flex-space-evenly">
+                            <input type="checkbox" data-grau="329.63" id="mi">
+                            <label for="mi">E - 3</label>
+                        </div>
+                        <div class="d-flex-space-evenly">
+                            <input type="checkbox" data-grau="349.23" id="fa">
+                            <label for="fa">F - 4</label>
+                        </div>
+                        <div class="d-flex-space-evenly">
+                            <input type="checkbox" data-grau="392.00" id="sol">
+                            <label for="sol">G - 5</label>
+                        </div>
+                        <div class="d-flex-space-evenly">
+                            <input type="checkbox" data-grau="440.00" id="la">
+                            <label for="la">A - 6</label>
+                        </div>
+                        <div class="d-flex-space-evenly">
+                            <input type="checkbox" data-grau="493.88" id="si">
+                            <label for="si">B - 7</label>
+                        </div>
+                        <div class="d-flex-space-evenly">
+                            <input type="checkbox" data-grau="523.25" id="do8">
+                            <label for="do8">C - 8</label>
+                        </div>
+                    </div>
+
                     <input type="submit" value="Play" class="btn-success pointer" id="playButton">
                 </form>
             </div>
