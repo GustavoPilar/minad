@@ -74,10 +74,19 @@
                         </div>
                     </div>
 
-                    <input type="submit" value="Play" class="btn-success pointer" id="playButton">
+                    <div class="d-flex-space-evenly">
+                        <input type="submit" value="Play" class="btn-success pointer" id="playButton">
+                        <input type="submit" value="Play" class="btn-success pointer d-none" id="replayButton">
+                        <input type="button" value="Ver" class="btn-success pointer d-none" id="answerButton">
+                    </div>
                 </form>
+                <div class="container text-center d-none" id="answer">
+                    <p>
+                        Resposta:<br>
+                        <span id="answerNotes"></span>
+                    </p>
+                </div>
             </div>
-            
         </div>
     </main>
     <footer class="d-flex">
