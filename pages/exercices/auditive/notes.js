@@ -6,9 +6,22 @@ const replay = document.getElementById('replayButton');
 const answerBtn = document.getElementById('answerButton');
 const answer = document.getElementById('answer');
 const answerNotes = document.getElementById('answerNotes');
+const sequenceLength = document.getElementById('sequenceLength');
+const sequenceLengthInput = document.getElementById('sequenceLengthInput');
+const checkboxes = document.getElementById('checkboxes');
+const ringing = document.getElementById('ringing');
 
 play.addEventListener('click', (event) => {
+
     event.preventDefault(); // Evitar o carregamento da página
+
+    if (sequenceLengthInput.value == null || sequenceLengthInput.value == '') {
+        error(true, document.getElementById('sequenceError'));
+        return;
+    }
+    else {
+        error(false, document.getElementById('sequenceError'));
+    }
 
     // Garantir que o AudioContext seja criado apenas uma vez
     if (!audioContext) {
@@ -16,34 +29,35 @@ play.addEventListener('click', (event) => {
     }
 
     // Pegando os valores dos Inputs
-    const sequenceLength = parseInt(document.getElementById('sequenceLength').value);
-    const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+    const sequenceLengthValue = parseInt(sequenceLengthInput.value);
+    const allCheckboxes = form.querySelectorAll('input[type="checkbox"]');
 
     // Pegar as frequências (convertendo para números)
-    const frequencies = Array.from(checkboxes)
+    const frequencies = Array.from(allCheckboxes)
         .filter(checkbox => checkbox.checked)
         .map(checkbox => parseFloat(checkbox.getAttribute('data-grau')));
 
-    if (frequencies.length === 0) {
-        alert("Selecione pelo menos uma nota!");
+    if (frequencies.length <= 0) {
+        error(true, document.getElementById('notesError'));
         return;
     }
+    if (frequencies.length > sequenceLengthInput.value) {
+        error(true, document.getElementById('notesError'));
+        return;
+    }
+    else {
+        error(false, document.getElementById('notesError'));
+    };
 
     // Gerar sequência aleatória de notas
     const notes = [];
-    for (let i = 0; i < sequenceLength; i++) {
+    for (let i = 0; i < sequenceLengthValue; i++) {
         const randomIndex = Math.floor(Math.random() * frequencies.length); // Índice entre 0 e frequencies.length - 1
         notes.push(frequencies[randomIndex]);
     }
 
     // Armazenar a última sequência gerada
     frequenciesReplays = [frequencies[0], ...notes];
-
-    // Atualizar exibição dos botões
-    play.style.display = 'none';
-    replay.style.display = 'block';
-    answerBtn.style.display = 'block';
-    answer.style.display = 'none';
 
     // Tocar a referência e depois a sequência
     playSequence(frequenciesReplays);
@@ -63,20 +77,23 @@ answerBtn.addEventListener('click', (event) => {
     event.preventDefault();
 
     // Exibir os elementos apropriados
+    sequenceLength.style.display = 'block';
+    checkboxes.style.display = 'block';
     replay.style.display = 'none';
     play.style.display = 'block';
     answerBtn.style.display = 'none';
     answer.style.display = 'block';
 
     // Obter os índices correspondentes às frequências
-    const checkboxes = form.querySelectorAll('input[type="checkbox"]');
-    const frequencyMap = Array.from(checkboxes).reduce((map, checkbox) => {
+    const Allcheckboxes = form.querySelectorAll('input[type="checkbox"]');
+    const frequencyMap = Array.from(Allcheckboxes).reduce((map, checkbox) => {
         map[parseFloat(checkbox.getAttribute('data-grau'))] = checkbox.nextElementSibling.innerText.split('-')[1].trim(); // Extrair o número (e.g., "1", "2")
         return map;
     }, {});
 
     // Mapear frequências para os números correspondentes
     const sequenceNumbers = frequenciesReplays.map(frequency => frequencyMap[frequency]);
+    console.log(sequenceNumbers); // Para verificar no console
 
     // Exibir a sequência formatada
     const answerNotes = document.getElementById('answerNotes');
@@ -84,12 +101,21 @@ answerBtn.addEventListener('click', (event) => {
 
     // Limpar a lista de frequências (opcional, dependendo da lógica)
     frequenciesReplays = [];
-    console.log(sequenceNumbers); // Para verificar no console
+    sequenceLength.value = '';
 });
 
 
 function playSequence(notes) {
+    sequenceLength.style.display = 'none';
+    checkboxes.style.display = 'none';
+    play.style.display = 'none';
+    replay.style.display = 'none';
+    answerBtn.style.display = 'none';
+    answer.style.display = 'none';
+    ringing.style.display = 'block';
+
     const noteDuration = 1; // Duração de cada nota em segundos
+    const pauseDuration = 1; // Pausa após a primeira nota
     let startTime = audioContext.currentTime; // Tempo inicial no contexto de áudio
 
     notes.forEach((frequency, index) => {
@@ -101,11 +127,44 @@ function playSequence(notes) {
         oscillator.connect(gainNode);
         gainNode.connect(audioContext.destination);
 
-        // Definir início e fim da nota
-        const noteStartTime = startTime + index * noteDuration;
+        let noteStartTime;
+
+        if (index === 0) {
+            // A primeira nota é tocada imediatamente
+            noteStartTime = startTime;
+        } else if (index === 1) {
+            // A segunda nota começa após a pausa de 2 segundos
+            noteStartTime = startTime + noteDuration + pauseDuration;
+        } else {
+            // As demais notas começam consecutivamente
+            noteStartTime = startTime + noteDuration + pauseDuration + (index - 1) * noteDuration;
+        }
+
         const noteEndTime = noteStartTime + noteDuration;
 
         oscillator.start(noteStartTime);
         oscillator.stop(noteEndTime);
     });
+
+    // Exibir os botões de replay e resposta após todas as notas serem tocadas
+    setTimeout(() => {
+        showButtonsReplayAnswer();
+    }, (notes.length * noteDuration + pauseDuration) * 1000);
+}
+
+
+function showButtonsReplayAnswer() {
+    replay.style.display = 'block';
+    answerBtn.style.display = 'block';
+    ringing.style.display = 'none';
+}
+
+
+function error(bool, element) {
+    if (bool) {
+        element.style.display = 'block';
+    }
+    else {
+        element.style.display = 'none';
+    }
 }
