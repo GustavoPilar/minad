@@ -1,4 +1,4 @@
-let audioContext; // Declarar o AudioContext fora do escopo do evento
+let audioContext; // Declarar o AudioContext fora do escopo do evento 
 const form = document.getElementById('noteForm');
 let frequenciesReplays = []; // Armazena a última sequência gerada
 const play = document.getElementById('playButton');
@@ -10,22 +10,36 @@ const sequenceLength = document.getElementById('sequenceLength');
 const sequenceLengthInput = document.getElementById('sequenceLengthInput');
 const checkboxes = document.getElementById('checkboxes');
 const ringing = document.getElementById('ringing');
+const permissionButton = document.getElementById('permissionButton'); // Botão de permissão
+
+// Solicitar permissão para tocar som
+permissionButton.addEventListener('click', () => {
+    if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+
+    if (audioContext.state === 'suspended') {
+        audioContext.resume().then(() => {
+            alert('Permissão concedida! Agora você pode tocar sons.');
+        });
+    } else {
+        alert('Permissão já foi concedida anteriormente!');
+    }
+});
 
 play.addEventListener('click', (event) => {
-
     event.preventDefault(); // Evitar o carregamento da página
+
+    if (!audioContext) {
+        alert('Por favor, permita tocar som antes de continuar.');
+        return;
+    }
 
     if (sequenceLengthInput.value == null || sequenceLengthInput.value == '') {
         error(true, document.getElementById('sequenceError'));
         return;
-    }
-    else {
+    } else {
         error(false, document.getElementById('sequenceError'));
-    }
-
-    // Garantir que o AudioContext seja criado apenas uma vez
-    if (!audioContext) {
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
     }
 
     // Pegando os valores dos Inputs
@@ -44,10 +58,9 @@ play.addEventListener('click', (event) => {
     if (frequencies.length > sequenceLengthInput.value) {
         error(true, document.getElementById('notesError'));
         return;
-    }
-    else {
+    } else {
         error(false, document.getElementById('notesError'));
-    };
+    }
 
     // Gerar sequência aleatória de notas
     const notes = [];
@@ -62,6 +75,10 @@ play.addEventListener('click', (event) => {
     // Tocar a referência e depois a sequência
     playSequence(frequenciesReplays);
 });
+
+// Outras funções existentes
+// ...
+
 
 replay.addEventListener('click', (event) => {
     event.preventDefault();
