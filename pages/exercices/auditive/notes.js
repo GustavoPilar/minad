@@ -28,9 +28,9 @@ play.addEventListener('click', (event) => {
     }
 
     const sequenceLength = parseInt(sequenceLengthInput.value);
-    const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+    const allCheckboxes = form.querySelectorAll('input[type="checkbox"]');
 
-    const frequencies = Array.from(checkboxes)
+    const frequencies = Array.from(allCheckboxes)
         .filter(checkbox => checkbox.checked)
         .map(checkbox => parseFloat(checkbox.getAttribute('data-grau')));
 
@@ -75,13 +75,15 @@ replay.addEventListener('click', (event) => {
 answerBtn.addEventListener('click', (event) => {
     event.preventDefault();
 
+    sequenceLength.style.display = 'block';
+    checkboxes.style.display = 'block';
     replay.style.display = 'none';
     play.style.display = 'block';
     answerBtn.style.display = 'none';
     answer.style.display = 'block';
 
-    const checkboxes = form.querySelectorAll('input[type="checkbox"]');
-    const frequencyMap = Array.from(checkboxes).reduce((map, checkbox) => {
+    const allCheckboxes = form.querySelectorAll('input[type="checkbox"]');
+    const frequencyMap = Array.from(allCheckboxes).reduce((map, checkbox) => {
         map[parseFloat(checkbox.getAttribute('data-grau'))] = checkbox.nextElementSibling.innerText.split('-')[1].trim();
         return map;
     }, {});
