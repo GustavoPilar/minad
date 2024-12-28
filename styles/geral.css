@@ -111,6 +111,10 @@ button {
     margin: 1rem;
 }
 
+.mb-1 {
+    margin-bottom: 1rem;
+}
+
 .m-2 {
     margin: 2rem;
 }
@@ -161,8 +165,14 @@ button {
     background-color: rgba(147, 210, 255, 0.535);
 }
 
-
 /* CUSTOM */
+
+.sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    top: .5rem;
+    z-index: 1000;
+}  
 
 .hover:hover {
     text-decoration: underline;
@@ -212,7 +222,7 @@ button {
 }
 
 .btn-success {
-    margin: 1rem 2rem;
+    margin: 1rem auto;
     border: none;
     border-radius: 16px;
     padding: 1rem;
