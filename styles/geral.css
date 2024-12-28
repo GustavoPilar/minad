@@ -46,13 +46,14 @@ button {
     background-color: white;
 }
 
-.hover:hover {
-    text-decoration: underline;
-}
-
 /* CLASSES */
 
 /* Sizing*/
+/* font-size */
+.font-075 {
+    font-size: .75rem;
+}
+
 /* width */
 .max-width-1200 {
     max-width: 1200px;
@@ -154,7 +155,18 @@ button {
     justify-content: space-evenly;
 }
 
+/* Color */
+/* Backgroud-color */
+.bg-info {
+    background-color: rgba(147, 210, 255, 0.535);
+}
+
+
 /* CUSTOM */
+
+.hover:hover {
+    text-decoration: underline;
+}
 
 .section {
     width: 80%;
@@ -221,4 +233,8 @@ button {
 
 .rounded {
     border-radius: 10px;
+}
+
+.border-1 {
+    border: 1px solid black;
 }
