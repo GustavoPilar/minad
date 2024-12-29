@@ -6,6 +6,9 @@ const replay = document.getElementById('replayButton');
 const answerBtn = document.getElementById('answerButton');
 const answer = document.getElementById('answer');
 const answerNotes = document.getElementById('answerNotes');
+const answerInput = document.getElementById('answerInput');
+const userAnswer = document.getElementById('userAnswer');
+const userInput = document.getElementById('userInput');
 const sequenceLength = document.getElementById('sequenceLength');
 const sequenceLengthInput = document.getElementById('sequenceLengthInput');
 const checkboxes = document.getElementById('checkboxes');
@@ -81,6 +84,7 @@ answerBtn.addEventListener('click', (event) => {
     play.style.display = 'block';
     answerBtn.style.display = 'none';
     answer.style.display = 'block';
+    userInput.style.display = 'none';
 
     const allCheckboxes = form.querySelectorAll('input[type="checkbox"]');
     const frequencyMap = Array.from(allCheckboxes).reduce((map, checkbox) => {
@@ -90,8 +94,10 @@ answerBtn.addEventListener('click', (event) => {
 
     const sequenceNumbers = frequenciesReplays.map(frequency => frequencyMap[frequency]);
 
-    const answerNotes = document.getElementById('answerNotes');
     answerNotes.textContent = sequenceNumbers.join(' - ');
+    userAnswer.textContent = answerInput.value ? answerInput.value : 'vazio...';
+    answerInput.value = '';
+    sequenceLengthInput.value = '';
 
     frequenciesReplays = [];
 });
@@ -104,6 +110,7 @@ function playSequence(notes) {
     replay.style.display = 'none';
     answerBtn.style.display = 'none';
     answer.style.display = 'none';
+    userInput.removeAttribute('style');
     ringing.style.display = 'block';
 
     const noteDuration = 1;
@@ -143,6 +150,7 @@ function playSequence(notes) {
 function showButtonsReplayAnswer() {
     replay.style.display = 'block';
     answerBtn.style.display = 'block';
+    userInput.style.display = 'block'; 
     ringing.style.display = 'none';
 }
 
