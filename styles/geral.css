@@ -232,6 +232,17 @@ button {
     color: var(--corPreta);
 }
 
+.btn-disabled {
+    margin: 1rem auto;
+    border: none;
+    border-radius: 16px;
+    padding: 1rem;
+    background-color: var(--corSombra);
+    text-transform: uppercase;
+    font-weight: bold;
+    color: var(--corPreta);
+}
+
 .itens-center {
     align-items: center;
     justify-content: center;
